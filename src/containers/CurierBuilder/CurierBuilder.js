@@ -27,9 +27,9 @@ const CurierBuilder = () => {
             },
             value: ''
          },
+         weight: createInputConfig('input', 'text', 'Вес', '', '' ),
          email: createInputConfig('input', 'email', 'Email', '', '' ),
          message: createInputConfig('input', 'text', 'Комментарий','', '' ),
-         weight: createInputConfig('input', 'text', 'Вес', '', '' )
       },
       isValid: true,
       showModal: false

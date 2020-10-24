@@ -15,11 +15,11 @@ import { AuthContext } from './../../components/context/Auth-Context';
 const AdminPanel = props => {
    const [formState, setFormState] = useState({ 
       invoiceForm: {
-         trackingNumber: createInputConfig('input', 'text', 'Номер накладной', 'Пример: 6789487'),
-         fromCountry: createInputConfig('input','text', 'Из какой страны посылка?', 'Пример: Молдова'),
-         fromCity: createInputConfig('input','text', 'Из какого города посылка?', 'Пример:  Кишинев'),
-         toCountry: createInputConfig('input', 'text', 'Страна оптравления посылки', 'Пример: Румыния'),
-         toCity: createInputConfig('input','text', 'Пример: Бухарест', 'Город отправления посылки'),
+         trackingNumber: createInputConfig('input', 'text', 'Номер накладной', ''),
+         fromCountry: createInputConfig('input','text', 'Из какой страны посылка?', ''),
+         fromCity: createInputConfig('input','text', 'Из какого города посылка?', ''),
+         toCountry: createInputConfig('input', 'text', 'Страна оптравления посылки', ''),
+         toCity: createInputConfig('input','text', 'Город оптравления посылки', ''),
          estimatedDeliveryDate: {
             elemType: 'input-mask',
             elemConfig: {
@@ -47,7 +47,7 @@ const AdminPanel = props => {
             elemConfig: {
                inpType: 'text',
                placeholder: 'Пример: Валера Молдавский',
-               label: 'Получатель',
+               label: 'Получил(a)',
             },
             disabled: true,
             value: ''

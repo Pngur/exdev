@@ -1,8 +1,21 @@
 @import './../../styles/mixins.scss';
 
+.Advertisement-Link {
+   text-decoration: none;
+}
+
 .Advertisement {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   background-image: url(./../../assets/images/ariix-image.jpg.png);
+   background-repeat: no-repeat;
+   background-size: cover;
+   background-position: center;
+
    margin-top: 8rem;
-   background-color: grey;
+   background-color: #bba167;
    width: 100%;
    height: 20rem;
    text-align: center;
@@ -10,14 +23,19 @@
    display: flex;
    align-items: center;
    justify-content: center;
+   cursor: pointer;
+
+   &__Text {
+      color: #ffff;
+      font-size: 2rem;
+      margin-top: 1rem;
+   }
 
    &__Placeholder {
       display: block;
       overflow: hidden;
-      // margin-top: 5rem;
       font-size: 3rem;
       color: #fff;
       @include respond(bp11) {font-size: 3.5rem;}
-
    }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import './Currency.scss';
 
-const Currency = React.memo(props => {
+const Currency = props => {
    return (
       <div className="Currency">
          <div className="Currency-Box">
@@ -29,6 +29,6 @@ const Currency = React.memo(props => {
       </div>
    );
   
-});
+};
 
 export default Currency;

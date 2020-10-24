@@ -12,7 +12,7 @@ const OrderSummary = props => (
          <div className="OrderSummary__Header-Col">куда</div>
          <div  className="OrderSummary__Header-Col">прибытие</div>
          <div  className="OrderSummary__Header-Col">статус</div>
-         {props.searchResult.recipient ? <div  className="OrderSummary__Header-Col">Получатель</div> : null}
+         {props.searchResult.recipient ? <div  className="OrderSummary__Header-Col">{'Получил(а)'}</div> : null}
       </li> 
       <li className="OrderSummary__Body-Row">
          <div className="OrderSummary__Body-Col OrderSummary__Body-Col--1">{props.searchResult.trackingNumber}</div>

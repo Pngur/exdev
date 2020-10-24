@@ -21,9 +21,9 @@ const Layout = props => {
                <Route path={'/delivery'} component={Curier}/>
                <Route path={'/'}>
                   <SliderBuilder/>
+                  <Advertisement/>
                   <Messages/>
                   <AboutUs/>
-                  <Advertisement/>
                </Route>
             </Switch>
          </main>

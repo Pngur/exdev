@@ -19,7 +19,7 @@ const Input = forwardRef((props, ref) => {
                onBlur={props.addBlurHandle ? event =>props.onBlurHandler(event) : null}
                disabled={props.disabled}
                defaultValue={props.defaultValue}
-               autoComplete={props.autoComplete}
+               autoComplete='on'
             />
          </>
       break;

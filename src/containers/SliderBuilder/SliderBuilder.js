@@ -47,11 +47,9 @@ const SliderBuilder = () => {
       scrollLeft: ''
    });
    const sliderWidth = useRef(null);
-   const sliderRef = useRef();
 
    // Меняем слайды по клику на Доты
    const handleSlideChange = useCallback(arg => {
-      // console.log(arg);
       let position = 0;
       let currrentSlide = arg;
       let dotStatus = {};
@@ -83,7 +81,7 @@ const SliderBuilder = () => {
             }   
          })
       );
-   }, [slider]);
+   }, [slider.currentSlideData.currentSlide, slider.dotsData.dotsCount, slider.widthData.width]);
 
    // Обнуляем transition после того как покажется последний слайд
    const updateTransiotionHandler = useCallback(() => {
@@ -99,8 +97,8 @@ const SliderBuilder = () => {
       }
    }, [slider.currentSlideData.currentSlide]); 
   
-   const handleMouseDown = e => {
-      // console.log(e.touches[0]);
+   ///////////////********** TOUCH EVENTS ************///////////////
+   const handleTouchStart = e => {
       let { left }  = sliderWidth.current.getBoundingClientRect();
       let scrollLeft = sliderWidth.current.scrollLeft;
       let startX = e.touches[0].clientX - left;
@@ -113,34 +111,35 @@ const SliderBuilder = () => {
       }));
    };
 
-   const handleMouseUp = e => {
-      // console.log(e.target.id);
-      let slideId = e.target.closest('.SliderImage').id.split('-')[1];
-      handleSlideChange(slideId);
-
+   const handleTouchEnd = e => {
       setSwiper(prevState => ({
          ...prevState,
          isDown: false
       }));
    };  
 
-   const handleMouseLeave = () => {
-      console.log('leave');
+   const handleTouchCancel = () => {
       setSwiper(prevState => ({
          ...prevState,
          isDown: false
       }));
    };
 
-   const handleMouseMove = e => {
+   const handleTouchMove = e => {
       if (!swiper.isDown) return;
-      let { left }  = sliderRef.current.getBoundingClientRect();
-      let x = e.touches[0].clientX - left;
-      
-   };   
+      let { left } = sliderWidth.current.getBoundingClientRect();
+      let x = e.touches[0].pageX - left;
+      let walk = x - swiper.startX;
+      // sliderWidth.current.scrollLeft = walk;
+
+      setSlider(prevState =>({
+         ...prevState,
+         position:  walk
+      }))
+   }; 
 
    // Узнаем ширину бокса в котором показываются слайды
-   useEffect(() => {       
+   useEffect(() => {   
       if (sliderWidth.current.offsetWidth < 700) {
          setSlider(prevState => ({
             ...prevState,
@@ -158,7 +157,26 @@ const SliderBuilder = () => {
             }
          }));
       }
+
    }, []);
+
+   // const loopSlider = useCallback((timeOutIds) => {
+   //    for (let i = 1; i <= 3; i++) {
+   //        timeOutIds.push(setTimeout( () => {
+   //          handleSlideChange(i);
+   //       }, i * 3000))
+   //     }           
+   // }, [handleSlideChange]);
+
+// useEffect(() => {
+//   const timeOutIds = [];
+//   loopSlider(timeOutIds);
+
+//  return () => {
+//     timeOutIds.map(id=>clearTimeout(id))
+//    }
+// }, [loopSlider])
+
    
    // Рендерим слайды
    const allslids = slider.sliderData.map(slide => (
@@ -175,16 +193,15 @@ const SliderBuilder = () => {
    return (
       <div className="Container">
          <div className="Slider" 
-            ref={sliderRef} 
          >
             <div className='Slider-Box'
                onTransitionEnd={updateTransiotionHandler} 
                ref={sliderWidth} 
-               style={{transform: `translateX(${slider.position}px)`, transition: slider.currentSlideData.transition ? "transform 1s" : "none" }}
-               onTouchStart={handleMouseDown}
-               onTouchEnd={event => handleMouseUp(event)}
-               onTouchCancel ={handleMouseLeave}
-               onTouchMove ={event => handleMouseMove(event)}
+               style={{transform: `translateX(${slider.position}px)`, transition: slider.currentSlideData.transition ? "transform .7s" : "none" }}
+               onTouchStart={handleTouchStart}
+               onTouchEnd={event => handleTouchEnd(event)}
+               onTouchCancel ={handleTouchCancel}
+               onTouchMove ={event => handleTouchMove(event)}
             >
                {allslids}
                <Slider 
