@@ -10,7 +10,7 @@ const useFetch = () => {
       popup: false
    }); 
 
-   const sendRequest = useCallback((method, url, data, loading, error, popup) => {
+   const sendRequest = useCallback((method, url) => {
       axios({
          method: method,
          url: url
@@ -33,10 +33,10 @@ const useFetch = () => {
 
    return {
       sendRequest: sendRequest,
-      data: {},
-      loading: false,
-      error: false,
-      popup: false
+      data: state.data,
+      loading: state.loading,
+      error: state.error,
+      popup: state.popup
    }
 
 };

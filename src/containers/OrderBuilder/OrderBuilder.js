@@ -6,6 +6,7 @@ import Modal from './../../components/UI/Modal/Modal';
 import OrderSummary from './../../components/OrderSummary/OrderSummary';
 import Form from './../../components/UI/Form/Form';
 import Input from './../../components/UI/Input/Input';
+import useFetch from './../../hooks/useFetch';
 
 const OrderBuilder = props => {
    const [orderState, setOrderState] = useState({
@@ -23,7 +24,7 @@ const OrderBuilder = props => {
       isValid: true,
       displayErrorText: ''
    });
-
+   const { sendRequest, data, loading, error, popup} = useFetch();
    const inputRef = useRef();
 
    const checkValidityHandler = event => {
@@ -73,29 +74,34 @@ const OrderBuilder = props => {
       };
 
       if (isFormValid) {
-         axios.get(`/deliveries/${orderState.value}`)
-         .then(response => {
-            setOrderState( prevState => {
-               return {
-                  ...prevState,
-                  showModal: true,
-                  isValid: true,
-                  searchResult: {...response.data.data.delivery}
-               }
-            });
-         })
-         .catch(error => {
-            console.log(error);
-            setOrderState( prevState => {
-               return {
-                  ...prevState,
-                  showModal: false,
-                  isValid: false,
-                  displayErrorText: orderState.errorMessage.noResult
-               }
-            });
-         })
-
+         sendRequest('get', `/deliveries/${orderState.value}`);
+         setOrderState( prevState => ({            
+            ...prevState,
+            showModal: popup,
+            searchResult: data,
+         }));   
+         console.log(orderState);
+         // axios.get(`/deliveries/${orderState.value}`)
+         // .then(response => {
+            // setOrderState( prevState => {
+            //    return {
+            //       ...prevState,
+            //       showModal: true,
+            //       isValid: true,
+            //       searchResult: {...response.data.data.delivery}
+            //    }
+            // });
+         // })
+         // .catch(error => {
+         //    setOrderState( prevState => {
+         //       return {
+         //          ...prevState,
+         //          showModal: false,
+         //          isValid: false,
+         //          displayErrorText: orderState.errorMessage.noResult
+         //       }
+         //    });
+         // })
       };
    };
    return (

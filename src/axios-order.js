@@ -5,7 +5,7 @@ export const weatherAxios = axios.create({
 });
 
 const insctance = axios.create({
-      // baseURL: 'https://exmoto.herokuapp.com/api/v1'
+      baseURL: 'http://localhost:5000/api/v1'
 });
 
 export default insctance;
