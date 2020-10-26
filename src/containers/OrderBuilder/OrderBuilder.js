@@ -75,7 +75,6 @@ const OrderBuilder = props => {
       if (isFormValid) {
          axios.get(`/deliveries/${orderState.value}`)
          .then(response => {
-            console.log(response);
             setOrderState( prevState => {
                return {
                   ...prevState,

@@ -160,22 +160,7 @@ const SliderBuilder = () => {
 
    }, []);
 
-   // const loopSlider = useCallback((timeOutIds) => {
-   //    for (let i = 1; i <= 3; i++) {
-   //        timeOutIds.push(setTimeout( () => {
-   //          handleSlideChange(i);
-   //       }, i * 3000))
-   //     }           
-   // }, [handleSlideChange]);
 
-// useEffect(() => {
-//   const timeOutIds = [];
-//   loopSlider(timeOutIds);
-
-//  return () => {
-//     timeOutIds.map(id=>clearTimeout(id))
-//    }
-// }, [loopSlider])
 
    
    // Рендерим слайды
