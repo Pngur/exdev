@@ -1,4 +1,4 @@
-import React, { useState, useRef} from 'react';
+import React, { useState, useRef, useEffect} from 'react';
 
 import './OrderBuilder.scss';
 import axios from './../../axios-order';
@@ -24,9 +24,8 @@ const OrderBuilder = props => {
       isValid: true,
       displayErrorText: ''
    });
-   const { sendRequest, data, loading, error, popup} = useFetch();
+   const { sendRequest, data, loading, error, popup, isValid} = useFetch();
    const inputRef = useRef();
-
    const checkValidityHandler = event => {
       let value = event.target.value;
       let isValid = value.trim() !== '' && true;
@@ -74,36 +73,41 @@ const OrderBuilder = props => {
       };
 
       if (isFormValid) {
-         sendRequest('get', `/deliveries/${orderState.value}`);
-         setOrderState( prevState => ({            
-            ...prevState,
-            showModal: popup,
-            searchResult: data,
-         }));   
-         console.log(orderState);
-         // axios.get(`/deliveries/${orderState.value}`)
-         // .then(response => {
-            // setOrderState( prevState => {
-            //    return {
-            //       ...prevState,
-            //       showModal: true,
-            //       isValid: true,
-            //       searchResult: {...response.data.data.delivery}
-            //    }
-            // });
-         // })
-         // .catch(error => {
-         //    setOrderState( prevState => {
-         //       return {
-         //          ...prevState,
-         //          showModal: false,
-         //          isValid: false,
-         //          displayErrorText: orderState.errorMessage.noResult
-         //       }
-         //    });
-         // })
+         // sendRequest('get', `https://exmoto.herokuapp.com/api/v1/deliveries/${orderState.value}`);
+         
+         axios.get(`/deliveries/${orderState.value}`)
+         .then(response => {
+            setOrderState( prevState => {
+               return {
+                  ...prevState,
+                  showModal: true,
+                  isValid: true,
+                  searchResult: {...response.data.data.delivery}
+               }
+            });
+         })
+         .catch(error => {
+            setOrderState( prevState => {
+               return {
+                  ...prevState,
+                  showModal: false,
+                  isValid: false,
+                  displayErrorText: orderState.errorMessage.noResult
+               }
+            });
+         })
       };
    };
+
+   useEffect(() => {
+      setOrderState( prevState => ({            
+         ...prevState,
+         showModal: popup,
+         searchResult: {...data},
+         isValid: isValid
+      }));   
+   }, []);
+
    return (
       <div className={props.class}>
          <Form 
