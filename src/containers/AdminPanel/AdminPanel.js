@@ -18,13 +18,13 @@ const AdminPanel = props => {
          trackingNumber: createInputConfig('input', 'text', 'Номер накладной', ''),
          fromCountry: createInputConfig('input','text', 'Из какой страны посылка?', ''),
          fromCity: createInputConfig('input','text', 'Из какого города посылка?', ''),
-         toCountry: createInputConfig('input', 'text', 'Страна оптравления посылки', ''),
-         toCity: createInputConfig('input','text', 'Город оптравления посылки', ''),
+         toCountry: createInputConfig('input', 'text', 'В какую страну доставка', ''),
+         toCity: createInputConfig('input','text', 'Город доставки', ''),
          estimatedDeliveryDate: {
             elemType: 'input-mask',
             elemConfig: {
                inpType: 'text',
-               label: 'Предпологаемое время доставки. ДД/ММ/ГГГГ',
+               label: 'Предполагаемое время доставки. ДД/ММ/ГГГГ',
             },
             validation: true,
             value: ''
