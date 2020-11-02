@@ -41,6 +41,7 @@ const Input = forwardRef((props, ref) => {
             <InputMask
                mask="99-99-9999" 
                maskChar='_'
+
                name={props.name}
                alwaysShowMask={true}
                type={props.elemConfig.inpType} 

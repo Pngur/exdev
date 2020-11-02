@@ -5,12 +5,11 @@ import axios from 'axios';
 const useFetch = () => {
    const [state, setState] = useState({
       data: {},
-      loading: false,
+      loading: true,
       error: false,
       popup: false,
       isValid: false
    }); 
-// console.log(state);
    const sendRequest = useCallback((method, url) => {
       axios({
          method: method,
@@ -28,19 +27,28 @@ const useFetch = () => {
          .catch(error => {
             setState( prevState => ({
                ...prevState,
-               loading: true,
+               loading: false,
                isValid: false
             }));
          })
    }, []);
-
+   const resetState = () => {
+      setState({
+         data: {},
+         loading: true,
+         error: false,
+         popup: false,
+         isValid: false
+      })
+   }
    return {
       sendRequest: sendRequest,
-      data: {...state.data.delivery},
+      resetState: resetState,
+      data: {...state.data},
       loading: state.loading,
       error: state.error,
       popup: state.popup,
-      isValid: state.isValid
+      isValid: state.isValid,
    }
 
 };

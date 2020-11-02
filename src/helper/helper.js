@@ -6,7 +6,9 @@ export const getEpochTime = (date) => {
 
 export const epochToDate = (epoch, separ) => {        
    const date = new Date(epoch);
-   return `${date.getDate()}${separ}${date.getMonth() + 1}${separ}${date.getFullYear()}`;
+   // console.log(date.date.getMonth() + 1);
+   // console.log(`${('0' + date.getDate()).slice(-2)}${separ}${('0' + date.getMonth() + 1).slice(-2)}${separ}${date.getFullYear()}`);
+   return `${('0' + date.getDate()).slice(-2)}${separ}${('0' + (date.getMonth()+1)).slice(-2)}${separ}${date.getFullYear()}`;
 }
 
 // Конфигурация Input

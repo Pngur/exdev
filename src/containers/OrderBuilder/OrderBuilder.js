@@ -24,7 +24,8 @@ const OrderBuilder = props => {
       isValid: true,
       displayErrorText: ''
    });
-   const { sendRequest, data, loading, error, popup, isValid} = useFetch();
+   const { sendRequest, resetState, data, loading, error, popup, isValid} = useFetch();
+  
    const inputRef = useRef();
    const checkValidityHandler = event => {
       let value = event.target.value;
@@ -39,9 +40,11 @@ const OrderBuilder = props => {
    };
 
    const closeOrderTableHandler = () => {
+      resetState();
       setOrderState( prevState => {
          return {
-            ...prevState,   
+            ...prevState,  
+            searchResult: {}, 
             showModal: false,
             isValid: true
       }});
@@ -73,41 +76,45 @@ const OrderBuilder = props => {
       };
 
       if (isFormValid) {
-         // sendRequest('get', `https://exmoto.herokuapp.com/api/v1/deliveries/${orderState.value}`);
-         
-         axios.get(`/deliveries/${orderState.value}`)
-         .then(response => {
-            setOrderState( prevState => {
-               return {
-                  ...prevState,
-                  showModal: true,
-                  isValid: true,
-                  searchResult: {...response.data.data.delivery}
-               }
-            });
-         })
-         .catch(error => {
-            setOrderState( prevState => {
-               return {
-                  ...prevState,
-                  showModal: false,
-                  isValid: false,
-                  displayErrorText: orderState.errorMessage.noResult
-               }
-            });
-         })
+         sendRequest('get', `https://exmoto.herokuapp.com/api/v1/deliveries/${orderState.value}`);
+
+         // axios.get(`/deliveries/${orderState.value}`)
+         // .then(response => {
+         //    setOrderState( prevState => {
+         //       return {
+         //          ...prevState,
+         //          showModal: true,
+         //          isValid: true,
+         //          searchResult: {...response.data.data.delivery}
+         //       }
+         //    });
+         // })
+         // .catch(error => {
+         //    setOrderState( prevState => {
+         //       return {
+         //          ...prevState,
+         //          showModal: false,
+         //          isValid: false,
+         //          displayErrorText: orderState.errorMessage.noResult
+         //       }
+         //    });
+         // })
       };
    };
 
    useEffect(() => {
-      setOrderState( prevState => ({            
-         ...prevState,
-         showModal: popup,
-         searchResult: {...data},
-         isValid: isValid
-      }));   
-   }, []);
+      console.log(loading);
+      if(!loading) {
+         setOrderState(prevState => ({
+            ...prevState,
+            showModal: popup,
+            isValid: isValid,
+            searchResult: {...data.delivery}
+         }))
+      }
+   }, [loading]);
 
+   console.log(orderState.searchResult);
    return (
       <div className={props.class}>
          <Form 

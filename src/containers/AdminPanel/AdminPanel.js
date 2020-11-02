@@ -24,7 +24,7 @@ const AdminPanel = props => {
             elemType: 'input-mask',
             elemConfig: {
                inpType: 'text',
-               label: 'Предполагаемое время доставки. ДД/ММ/ГГГГ',
+               label: 'Предполагаемое время доставки. ДД-ММ-ГГГГ',
             },
             validation: true,
             value: ''
@@ -83,6 +83,7 @@ const AdminPanel = props => {
    });
    const searchInput = useRef(null);
    const authContext = useContext(AuthContext);
+   console.log(searchState.searchResult);
    
    //  Отсеживание введенных значений в форме ПОИСКА накладной
    const handleSearchInputChange = e => {
@@ -200,10 +201,11 @@ const AdminPanel = props => {
             })
             .catch(error =>{
                let errText; 
+               console.log(error);
                if(error.response.data.message.indexOf('Estimated') !== -1) {
                   errText = formState.errorText.errorDate
                }
-               if (error.response.data.message.indexOf('duplicate') !== -1) {
+               if (error.response.data.message.indexOf('Duplicate') !== -1) {
                   errText = formState.errorText.notUniqueId;
                }
                setFormState(prevState => {
@@ -237,6 +239,7 @@ const AdminPanel = props => {
       if (cloneinvoiceForm[inpId].value === 'false') {
          cloneinvoiceForm.recipient.disabled = true;
       }
+
       setFormState(prevState => {
          return {
             ...prevState,
@@ -253,7 +256,13 @@ const AdminPanel = props => {
             ...prevState,
             showAddForm: true,
             showUpdateForm: false
-         }))};
+         }));
+      setSearchState(prevState => ({
+         ...prevState,
+         showSearchResults: false
+      }))   
+   };
+
     //--------------------------Редактирование--------------------------//
    // Показывать форму редактиования  наладной
    const handleUpdateFormShow = () => {
@@ -270,7 +279,7 @@ const AdminPanel = props => {
          showAddForm: false,
       });
    };
-   console.log(formState);
+
    // Подтвердить изменения накладной
    const handleFormUpdateSubmit = e => {
       e.preventDefault();
@@ -399,6 +408,7 @@ const AdminPanel = props => {
             />  
       } else {InvoiceType = null;}
 
+      // console.log(formState.displayErrorText);
    return (
       <div className="Admin">
          <div className="Left-Side">
@@ -459,7 +469,7 @@ const AdminPanel = props => {
          <div className="Right-Side">
             {InvoiceType}             
             <Modal show={formState.submitted} close={handleClose}>
-               <Popup />
+               <Popup text={formState.showAddForm ? 'Накладная добавлена' : 'Накладная отредактирована'}/>
             </Modal>
          </div>
       </div>
